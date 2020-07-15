@@ -4,6 +4,7 @@ body{
 .container{
     max-width: 1200px;
     margin: auto;
+    padding-top:20px;
 }
 .jumbutron{
     display: flex;
@@ -11,7 +12,6 @@ body{
     align-items: center;
     height: 80px;
     background-color: #ccc;
-    margin-top: 20px;
     font-size: 22px;
     color: rgb(32, 30, 30);
     box-shadow: 4px 4px 0 rgb(128, 125, 125);
@@ -20,6 +20,13 @@ body{
 }
 .title{
     text-align: center;
+}
+
+.cadastro{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 @media (max-width:500px){

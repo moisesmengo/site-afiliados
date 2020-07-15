@@ -1,3 +1,4 @@
+<?php require 'config.php' ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,18 +18,27 @@
         
         <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
             <div class="text-sm lg:flex-grow">
-                <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4 ">
-                    Cadastre-se
-                </a>
-                <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
-                    Login
-                </a> 
-            <!--<a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
-                    Meus Anúncios
-                </a>
-                <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
-                    Sair
-                </a>-->
+                <?php if(isset($_SESSION['cLogin']) && !empty($_SESSION['cLogin'])): ?>
+                    <a href="index.php" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
+                        Home
+                    </a>
+                    <a href="meus-anuncios.php" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
+                        Meus Anúncios
+                    </a>
+                    <a href="sair.php" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
+                        Sair
+                    </a>
+                <?php else: ?>
+                    <a href="index.php" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
+                        Home
+                    </a>
+                    <a href="cadastro.php" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4 ">
+                        Cadastre-se
+                    </a>
+                    <a href="login.php" class="block mt-4 lg:inline-block lg:mt-0 text-gray-700 hover:text-gray-600 mr-4">
+                        Login
+                    </a> 
+                <?php endif; ?>
             </div>
         </div>
     </nav>
