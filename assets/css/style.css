@@ -21,12 +21,19 @@ body{
 .title{
     text-align: center;
 }
-
 .cadastro{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.form-cadastro{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+.form-cadastro input, .form-cadastro select{
+    border: 1px solid #888;
 }
 
 @media (max-width:500px){

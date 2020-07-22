@@ -50,14 +50,4 @@
 
 </div>
 
-<style>
-    .form-cadastro{
-        display: flex;
-        flex-direction: column;
-        width: 60%;
-    }
-    .form-cadastro input{
-        border: 1px solid #888;
-    }
-</style>
 <?php require 'pages/footer.php' ?>
