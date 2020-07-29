@@ -20,7 +20,14 @@
             $descricao = addslashes($_POST['descricao']);
             $estado = addslashes($_POST['estado']);
 
-            $a->editAnuncio($titulo, $categoria, $valor, $descricao, $estado, $_GET['id']);
+            if(isset($_FILES['fotos'])){
+                $fotos = $_FILES['fotos'];
+            }else{
+                $fotos = array();
+            }
+            
+
+            $a->editAnuncio($titulo, $categoria, $valor, $descricao, $estado, $fotos, $_GET['id']);
 
             ?>
                 <div class=" mt-2 mb-2 bg-green-100 border-l-4 border-green-500 text-green-700 p-4" role="alert">
@@ -110,8 +117,33 @@
                 >Ótimo</option>
             </select>
         </div>
-        
+
+        <div class="md:flex md:items-center mb-1">
+            <div class="md:w-1/3">
+                <label class="block text-gray-900 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
+                    Fotos:
+                </label>
+            </div>
+            <input type="file" multiple name="fotos[]" id="fotos"  class="mt-2 bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 mb-3">
+            
+        </div>
+
+        <div class="painel">
+            <h1>Fotos do Anúncio</h1>
+
+            <div class="fotos">
+                <?php foreach($info['fotos'] as $foto): ?>
+                    <div class="foto_anuncio">
+                        <img src="assets/images/anuncios/<?= $foto['url']; ?>">
+                        <a href="excluir-foto.php?id=<?= $foto['id'] ;?>">Excluir</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+            
         <input type="submit" value="Salvar" class="shadow bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+        
+        
     </form>
 </div>
 
@@ -135,6 +167,33 @@
     }
     .dex{
         height: 100px;
+    }
+    .painel{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .painel h1{
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .fotos{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .foto_anuncio{
+        margin: 5px 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .foto_anuncio img{
+        width: 75px;
+        height: 50px;
     }
 </style>
 <?php require 'pages/footer.php' ?>
