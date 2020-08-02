@@ -1,5 +1,16 @@
 <?php
+
 class Anuncios{
+
+    public function getTotalAnuncios(){
+        global $pdo;
+
+        $sql = $pdo->query("SELECT COUNT(*) as c FROM anuncios");
+        $row = $sql->fetch();
+
+        return $row['c'];
+    }
+
     public function getMeusAnuncios() {
         global $pdo;
 
@@ -10,6 +21,28 @@ class Anuncios{
             as url FROM anuncios  WHERE id_usuario = :id_usuario");
 
         $sql->bindValue(":id_usuario", $_SESSION['cLogin']);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            $array = $sql->fetchAll();
+        }
+
+        return $array;
+    }
+
+    public function getUltimosAnuncios($page){
+        global $pdo;
+
+        $offset = ($page - 1) * 3;
+
+        $array = array();
+        $sql = $pdo->prepare("SELECT *, 
+            (SELECT anuncios_imagens.url from anuncios_imagens 
+            where anuncios_imagens.id_anuncio = anuncios.id limit 1)
+            as url,(SELECT categorias.nome FROM categorias WHERE
+            categorias.id = anuncios.id
+            ) as categoria FROM anuncios ORDER BY id DESC LIMIT $offset, 3");
+
         $sql->execute();
 
         if($sql->rowCount() > 0){

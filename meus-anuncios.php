@@ -33,7 +33,7 @@
                     <tr>
                         <td class="border px-4 py-2">
                             <?php if(!empty($anuncio['url'])): ?>
-                                <img height="50" src="assets/images/anuncios/<?php echo $anuncio['url'];?>" alt="" border="0" />
+                                <img height="50" width="50" src="assets/images/anuncios/<?php echo $anuncio['url'];?>" alt="" border="0" />
                             <?php else: ?>
                                 <img src="assets/images/caca-anuncios.jpg" height="30" width="60" alt="">
                             <?php endif; ?>
