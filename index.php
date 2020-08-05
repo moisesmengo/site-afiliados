@@ -14,7 +14,7 @@
     if(isset($_GET['p']) && !empty($_GET['p'])){
         $p = addslashes($_GET['p']);
     }
-    $total_paginas = ceil($total_anuncios / 3);
+    $total_paginas = ceil($total_anuncios / 9);
 
     $anuncios = $a->getUltimosAnuncios($p);
 ?>
@@ -55,7 +55,7 @@
                     </div>    
                 <?php endforeach ?> 
             </div>
-            <ul class="paginacao mt-3">
+            <ul class="paginacao mt-3 mb-3">
                 <?php for($i=0; $i<$total_paginas; $i++): ?>
                     <li class="<?= $p==$i+1 ? 'active' : '' ?>">
                         <a href="index.php?p=<?= $i+1; ?>"><?= $i+1; ?></a>

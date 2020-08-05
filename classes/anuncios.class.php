@@ -33,7 +33,7 @@ class Anuncios{
     public function getUltimosAnuncios($page){
         global $pdo;
 
-        $offset = ($page - 1) * 3;
+        $offset = ($page - 1) * 9;
 
         $array = array();
         $sql = $pdo->prepare("SELECT *, 
@@ -41,7 +41,7 @@ class Anuncios{
             where anuncios_imagens.id_anuncio = anuncios.id limit 1)
             as url,(SELECT categorias.nome FROM categorias WHERE
             categorias.id = anuncios.id
-            ) as categoria FROM anuncios ORDER BY id DESC LIMIT $offset, 3");
+            ) as categoria FROM anuncios ORDER BY id DESC LIMIT $offset, 9");
 
         $sql->execute();
 
@@ -84,7 +84,14 @@ class Anuncios{
     public function getAnuncio($id){
         global $pdo;
         $array = array();
-        $sql = $pdo->prepare("SELECT * FROM anuncios WHERE id = :id");
+        $sql = $pdo->prepare("SELECT *, 
+        (SELECT categorias.nome FROM categorias WHERE
+            categorias.id = anuncios.id
+        )
+        as categoria, 
+        (select usuarios.telefone from usuarios where usuarios.id = anuncios.id_usuario)
+        as telefone
+        FROM anuncios WHERE id = :id");
         $sql->bindValue(":id", $id);
         $sql->execute();
 
