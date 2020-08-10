@@ -3,9 +3,21 @@
 <?php 
     require 'classes/anuncios.class.php';
     require 'classes/usuarios.class.php';
+    require 'classes/categorias.class.php';
 
     $a = new Anuncios();
     $u = new Usuarios();
+    $c = new Categorias();
+
+    $filtros = array(
+        'categoria' => '',
+        'preco' => '',
+        'estaado' => ''
+    );
+
+    if(isset($_GET['filtros'])){
+        $filtros = $_GET['filtros'];
+    }
 
     $total_anuncios = $a->getTotalAnuncios();
     $total_usuarios = $u->getTotalUsuarios() ;
@@ -16,7 +28,8 @@
     }
     $total_paginas = ceil($total_anuncios / 9);
 
-    $anuncios = $a->getUltimosAnuncios($p);
+    $anuncios = $a->getUltimosAnuncios($p, $filtros);
+    $categorias = $c->getLista();
 ?>
 
 <div class="container">
@@ -30,6 +43,61 @@
     <div class="grid grid-rows md:grid-flow-col gap-4 main">
         <div class="row-span-3 col-span-2 md:col-span-1">
             <h3 class="title mb-2">Pesquisa Avançada</h3>
+
+            <form action="" method="get">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" for="categoria">
+                    Categoria:
+                </label>
+                <div class="inline-block relative w-full">
+                    <select id="categoria" name="filtros[categoria]" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        <option value=""></option>
+                        <?php foreach($categorias as $cat): ?>
+                            <option value="<?= $cat['id']; ?>" 
+                            <?= ($cat['id']==$filtros['categoria']) ? 'selected="selected"':'';?>>
+                                <?= utf8_encode($cat['nome']); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+
+                <label class="block mt-2 uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" for="preco">
+                    Preço:
+                </label>
+                <div class="inline-block relative w-full">
+                    <select id="preco" name="filtros[preco]" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        <option value=""></option>
+                        <option value="0-50" <?= ($filtros['preco']=='0-50') ? 'selected="selected"':'';?>>R$ 0 - 50</option>
+                        <option value="51-100" <?= ($filtros['preco']=='51-100') ? 'selected="selected"':'';?>>R$ 51 - 100</option>
+                        <option value="101-200" <?= ($filtros['preco']=='101-200') ? 'selected="selected"':'';?>>R$ 101 - 200</option>
+                        <option value="201-500" <?= ($filtros['preco']=='201-500') ? 'selected="selected"':'';?>>R$ 201 - 500</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+
+                <label class="block mt-2 uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" for="estado">
+                    Estado de Conservação:
+                </label>
+                <div class="inline-block relative w-full ">
+                    <select id="estado" name="filtros[estado]" class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        <option value=""></option>
+                        <option value="0" <?= ($filtros['estado']=='0') ? 'selected="selected"':'';?>>Ruim</option>
+                        <option value="1" <?= ($filtros['estado']=='1') ? 'selected="selected"':'';?>>Bom </option>
+                        <option value="2" <?= ($filtros['estado']=='2') ? 'selected="selected"':'';?>>Ótimo</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
+                    Buscar
+                </button>
+            </form>
         </div>
 
         <div class="row-span-2 col-span-2 md:col-span-3 ">
